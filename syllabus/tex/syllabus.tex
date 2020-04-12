@@ -1,0 +1,241 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{ltjarticle}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Pythonを用いた初心者向けAI実践講座〜中級編〜},
+  pdfauthor={慶應義塾大学理工学部物理情報工学科B3 安田俊輝},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{Pythonを用いた初心者向けAI実践講座〜中級編〜}
+\author{慶應義塾大学理工学部物理情報工学科B3 安田俊輝}
+\date{April 12, 2020}
+
+\begin{document}
+\maketitle
+
+\hypertarget{ux306fux3058ux3081ux306b}{%
+\section{はじめに}\label{ux306fux3058ux3081ux306b}}
+
+この講習会は春学期開講の「Pythonを用いた初心者向けAI実践講座（初級編）」
+の続編にあたる講習会です。皆さんは今までに「ロジスティック回帰」や「SVM
+（サポートベクトルマシン）」などのモデル、前処理や次元削減と言ったデータ解析
+のテクニック、プログラミング言語Pythonの書き方等を勉強してきたかと思います。
+scikit-learnといった機械学習ライブラリを用いて実践的な問題になんとなく
+取り組めるようになった今の段階で一度立ち止まってみてください。
+どうしてそれらのモデルやテクニックは「魔法のごとく」うまくいっているのでしょうか？
+そこには先人たちが作りあげた数学的な理論や、数値解析等の実践的な工学的手法が
+たくさん見え隠れしています。この講習会では、そんな機械学習の「理論的」な一面
+を（機械学習分野全体としてはほんの一部ですが）理解していただけたら幸いです。
+
+\hypertarget{ux30b7ux30e9ux30d0ux30b9}{%
+\section{シラバス}\label{ux30b7ux30e9ux30d0ux30b9}}
+
+本講習会は２章構成になっています。
+
+第１回〜第５回　パターン認識の基礎（１章）
+
+第６回〜第１０回　ベイズ機械学習（２章）
+
+１章では初級編で行ったモデル、データ解析手法について理論的な焼き直しを
+行います。２章ではさらに進んで「ベイズ機械学習」に入門したいと
+思います。この２章は初級編では触れていないかと思いますが、データ分析を
+行っていく上でとても強力な武器となってくれます。また、「PRML」といった
+いわゆる機械学習の「名著」と呼ばれる本の多くはこの２章の内容を中心に
+話が進んでいくことが多いため、今後さらに学習を進めていく上でも
+知っていて損のない内容です。
+
+\hypertarget{ux8b1bux7fa9ux306eux30b9ux30bfux30a4ux30eb}{%
+\section{講義のスタイル}\label{ux8b1bux7fa9ux306eux30b9ux30bfux30a4ux30eb}}
+
+１回の講義時間は90分で、前半60〜75分は講義、残り時間はプログラミング
+言語「Python」を用いた演習を行います。理論を中心に扱うので、可能な
+限り「フルスクラッチ実装」を目指します。（難しいと想定される題材に
+関してはライブラリに頼ります。）講義パートでは、配布する資料を元に
+いわゆる普段皆さんが受けているような講義スタイルで説明をしていきます。
+また資料は大きく分けて３つのパートから構成されています。
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  講義で取り扱う内容
+\item
+  コラム（発展的な内容）
+\item
+  練習問題
+\end{enumerate}
+
+この３つのうち講義では1.のみを扱います。（3.は紙とペンで解く数学的な
+演習なので、Pythonのコーディングパートとは異なります。Pythonコードは
+この資料とは別にbox等で配布します。）2.のコラムはこの講義では扱わない
+発展的なものですので時間がある時に読んでみてください。
+
+\hypertarget{ux4e8bux524dux77e5ux8b58}{%
+\section{事前知識}\label{ux4e8bux524dux77e5ux8b58}}
+
+「Pythonを用いた初心者向けAI実践講座（初級編）」に出てくる題材を用いるので当講座を受けていることが望ましいです。（オンデマンドにて配信を行ったので事前に視聴しておくのがいいと思います。）
+また、この講義では数式がたくさん出てきます。この講義では文系学生さんも
+想定し、高校数学ⅡB程度の知識が最低限あるとある程度の理解ができるような説明を行います。理系学生等、さらに理解を深めたい人は、高校数学Ⅲ、大学１年生程度の数学の知識があると本講義で扱う式変形がほぼ全てスムーズに理解できると思います。また、本講義で中心となる「線形代数」と「確率統計」については、第１回、
+第６回で時間を設けて説明を行います。
+
+\hypertarget{ux5404ux56deux5185ux5bb9}{%
+\section{各回内容}\label{ux5404ux56deux5185ux5bb9}}
+
+\hypertarget{ux7b2cuxff11ux7ae0-ux30d1ux30bfux30fcux30f3ux8a8dux8b58ux306eux57faux790e}{%
+\subsection{第１章
+パターン認識の基礎}\label{ux7b2cuxff11ux7ae0-ux30d1ux30bfux30fcux30f3ux8a8dux8b58ux306eux57faux790e}}
+
+初級編で行ったモデルについて、数学的に深堀をしつつ、基礎的なパターン認識について学習する。
+
+\hypertarget{ux7ddaux5f62ux4ee3ux6570-1.1}{%
+\subsubsection{１. 線形代数 (1.1)}\label{ux7ddaux5f62ux4ee3ux6570-1.1}}
+
+　行列の基礎、よくやる式変形\\
+　ベクトルの微分、積分\\
+　　Column: ４つの部分空間
+
+\hypertarget{ux56deux5e30ux3068ux5206ux985e}{%
+\subsubsection{２. 回帰と分類}\label{ux56deux5e30ux3068ux5206ux985e}}
+
+　単回帰（回帰）(1.2)\\
+　　- 正規方程式の導出\\
+　パーセプトロン（分類）(1.3)\\
+　　- 学習規則と収束定理\\
+　　Column: 分類の正規方程式と線形判別分析
+
+\hypertarget{ux30edux30b8ux30b9ux30c6ux30c3ux30afux56deux5e30-uxff11.uxff14}{%
+\subsubsection{３. ロジステック回帰
+（１.４）}\label{ux30edux30b8ux30b9ux30c6ux30c3ux30afux56deux5e30-uxff11.uxff14}}
+
+　　一般化線形モデル\\
+　　最尤推定と数理最適化\\
+　　　Column: 最尤推定とMAP推定\\
+　　　Column: 深層学習と活性化関数（一般化線形モデルとの関係）
+
+\hypertarget{svm-1.5}{%
+\subsubsection{４. SVM (1.5)}\label{svm-1.5}}
+
+　マージン最大化とラグランジュ未定乗数法\\
+　カーネルトリック\\
+　　Column: ガウス過程
+
+\hypertarget{ux6559ux5e2bux306aux3057ux5b66ux7fd2-i-1.6}{%
+\subsubsection{５. 教師なし学習 I
+(1.6)}\label{ux6559ux5e2bux306aux3057ux5b66ux7fd2-i-1.6}}
+
+　主成分分析（PCA）\\
+　k-mean法\\
+　　Column: 次元の呪い（メロンパンと高次元立方体）
+
+\hypertarget{ux7b2cuxff12ux7ae0-ux30d9ux30a4ux30baux6a5fux68b0ux5b66ux7fd2}{%
+\subsection{第２章
+ベイズ機械学習}\label{ux7b2cuxff12ux7ae0-ux30d9ux30a4ux30baux6a5fux68b0ux5b66ux7fd2}}
+
+ベイズ機械学習を基礎を体系的に学習することを目的とする。
+
+\hypertarget{ux78baux7387ux7d71ux8a08ux30d9ux30a4ux30baux6a5fux68b0ux5b66ux7fd2ux306eux57faux790e2.1}{%
+\subsubsection{６.
+確率統計、ベイズ機械学習の基礎（2.1）}\label{ux78baux7387ux7d71ux8a08ux30d9ux30a4ux30baux6a5fux68b0ux5b66ux7fd2ux306eux57faux790e2.1}}
+
+　期待値等各種統計量の説明\\
+　ベイズの定理\\
+　ベイズ学習とは？\\
+　　Column: ベイズの工学的応用（カルマンフィルタ）\\
+　　Column: グラフィカルモデル（マルコフブランケット）\\
+　　Column: 情報理論とエントロピー
+
+\hypertarget{ux30d9ux30a4ux30baux63a8ux8ad6ux306eux57faux790e-ux5b66ux7fd2ux4e88ux6e2cux6bd4ux8f03}{%
+\subsubsection{７. ベイズ推論の基礎　〜学習、予測、比較
+〜}\label{ux30d9ux30a4ux30baux63a8ux8ad6ux306eux57faux790e-ux5b66ux7fd2ux4e88ux6e2cux6bd4ux8f03}}
+
+　共役事前分布とは\\
+　事後分布とは\\
+　予測分布とは 　周辺尤度（モデルエビデンス）\\
+　　Column: 指数関数族の一般形\\
+　　Column: モーメントマッチング（指数関数族と仮定密度フィルタリング）
+
+\hypertarget{ux8907ux96d1ux306aux78baux7387ux30e2ux30c7ux30eb}{%
+\subsubsection{８.
+複雑な確率モデル}\label{ux8907ux96d1ux306aux78baux7387ux30e2ux30c7ux30eb}}
+
+　多峰性、クラスタリング (2.3)\\
+　ポアソン混合モデルを用いたモデル設計\\
+　　Column: ノンパラメトリックモデル（カーネル密度推定とK近傍法）
+
+\hypertarget{ux8fd1ux4f3cux63a8ux8ad6}{%
+\subsubsection{９. 近似推論}\label{ux8fd1ux4f3cux63a8ux8ad6}}
+
+　ギブスサンプリング\\
+　平均場近似\\
+　　Column: 分配関数と統計物理\\
+　　Column: いろいろな近似推論
+
+\hypertarget{ux6559ux5e2bux306aux3057ux5b66ux7fd2-ii2.4}{%
+\subsubsection{１０. 教師なし学習
+II(2.4)}\label{ux6559ux5e2bux306aux3057ux5b66ux7fd2-ii2.4}}
+
+　ガウス混合モデル\\
+　EMアルゴリズム\\
+　　Column: 解析力学と汎関数（変分法）\\
+　　Column: 線形次元削減と変分自己符号器（VAE）
+
+\hypertarget{ux5099ux8003}{%
+\section{備考}\label{ux5099ux8003}}
+
+資料に誤植、不適切な箇所がありましたら、以下に連絡お願いします。
+
+E-mail
+
+Twitter @besshy8
+
+また本講習会ではTA（teaching assistant）として４名、講習会に関わってくだ
+さります。講義中に質問等困ったことがありましたら私か、TAの方に聞いてください。
+
+慶應義塾大学理工学部数理科学科B3
+
+慶應義塾大学理工学部生命情報工学科B3
+
+慶應義塾大学理工学部
+
+慶應義塾大学理工学部
+
+\end{document}
