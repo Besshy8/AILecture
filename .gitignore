@@ -3,3 +3,5 @@ syllabus/tex/syllabus.fdb_latexmk
 syllabus/tex/syllabus.fls
 syllabus/tex/syllabus.log
 syllabus/tex/syllabus.synctex.gz
+test/
+section1/pandoc/
