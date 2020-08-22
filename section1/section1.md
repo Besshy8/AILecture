@@ -235,8 +235,10 @@ $$M\frac{D^2(\vec{w^*})\eta}{d(\eta+2\alpha)}\leq\phi\leq1 \Longrightarrow M \le
 
 ## 1-5 SVM（サポートベクトルマシン）
 
+## $Column\sim$ カーネルと再生核ヒルベルト空間  $\sim$
 ## $Column\sim$ ガウス過程   $\sim$
 
 ## 1-6 教師なし学習
 
 ## $Column\sim$ 次元の呪い（メロンパンと高次元立方体） $\sim$
+## $Column$: $Bias-Variance$ 分解
