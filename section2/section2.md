@@ -361,5 +361,30 @@ $k$番目のクラスタに割り当てられた全てのデータ点$\vec{x_n}$
 
 潜在変数が含まれる最尤推定の問題で使われる最適化アルゴリズム。
 
+$$\ln p(X|\pi,\mu,\Sigma) = \sum_{n=1}^{N}\ln\Bigl\{\sum_{n=1}^{N}\pi_k N(x_n|\mu_k,\Sigma_k)\Bigl\}$$
+
+混合ガウス分布で表された尤度関数()の最大化は、EMアルゴリズムを用いると
+以下の4ステップによって最適化される。
+
+1. $\mu_k,\Sigma_k,\pi_k$を初期化し、対数尤度()の初期値を計算する。
+2. (Eステップ) 1の値を用いて以下の負担率を計算する。
+
+$$\gamma_k = \frac{\pi_k N(x_n|\mu_k,\Sigma_k)}{\sum_{j=1}^{K}\pi_j N(x_n|\mu_j,\Sigma_j)}$$
+
+3. (Mステップ) 2で求めた負担率を用いて、次式で$\mu_k,\Sigma_k,\pi_k$を再計算する。
+
+$$\mu_k^{new} = \frac{1}{N_k}\sum_{n=1}^{N}\gamma(z_{nk})\vec{x}_n$$
+
+$$\Sigma_k^{new} = \frac{1}{N_k}\sum_{n=1}^{N}\gamma(z_{nk})(\vec{x}_n - \mu_k^{new})(x_n - \mu_k^{new})^T$$
+
+$$\pi_k^{new} = \frac{N_k}{N}, \quad N_k = \sum_{n=1}^{N}\gamma(z_{nk})$$
+
+4. $\mu_k^{new},\Sigma_k^{new},\pi_k^{new}$で対数尤度()を計算。対数尤度、もしくはパラメータの値の変化を見て収束性を確認。収束していなければ、
+2に戻る。
+
+上記の更新ステップで、対数尤度関数は必ず増加することが保証されている。(Column)
+
+
+## $Column\sim$ 対数尤度関数の最大化とKL-divergence $\sim$
 ## $Column\sim$ 解析力学と汎関数（変分法） $\sim$
 ## $Column\sim$ 線形次元削減と変分自己符号器（VAE） $\sim$
