@@ -230,9 +230,46 @@ $$M\frac{D^2(\vec{w^*})\eta}{d(\eta+2\alpha)}\leq\phi\leq1 \Longrightarrow M \le
 
 ## 1-5 SVM（サポートベクトルマシン）
 
+$$t_i(w^Tx_i + b) > 0, \quad t_i = 1,2,...n, \quad t_{i} =
+        \begin{cases}
+            1 & x_i \in K_1 \\
+            -1 & x_i \in K_2 \\
+        \end{cases} $$
+
+p次元データ$x = (x_1,x_2,..., x_p)$と超平面$w^Tx_i + b = 0$の距離を
+
+$$d = \frac{}{}$$
+
+
+とし、2つのクラスを分ける超平面とそれに最も近いデータ(サポートベクトル)との
+間の距離(マージン$M$)を最大化するように$w,b$を最適化する。
+
+$$argmax_{w,b} M,\quad \frac{t_i(w^Tx_i + b)}{||w||} \geq M,\quad i=1,2,...n$$
+$$ argmin_{w,b}\frac{1}{2}||w||^2,\quad t_i(w^Tx_i+b)\geq 1, \quad i=1,2,...n$$
+
+スラッグ変数$\epsilon_i$を導入してこの最適化問題を書き換えると、
+
+$$argmin_{w,b}\Bigl\{\frac{1}{2}||w||^2 + C\sum_{i=0}^{n}\epsilon_i\Bigl\},\quad t_i(w^Tx_i+b)\geq 1-\epsilon_i,\quad \epsilon_i \geq 0 \quad i=1,2,...n$$
+
+双対問題
+
+$$argmax_{\alpha}\Biggl\{L(\alpha) = \sum_{i=1}^{n}\alpha_i - \frac{1}{2}\sum_{i=1}^{n}\sum_{i=j}^{n}\alpha_i\alpha_iy_iy_ix_i^Tx_j\Biggl\}$$
+$$\sum_{i=1}^{n}\alpha_iy_i= 0 ,\quad 0 \leq \alpha_i \leq C, \quad i = 1,2,...n$$
+
+前処理、高次元特徴空間
+
+$$argmax_{\alpha}\Biggl\{L(\alpha) = \sum_{i=1}^{n}\alpha_i - \frac{1}{2}\sum_{i=1}^{n}\sum_{i=j}^{n}\alpha_i\alpha_iy_iy_i\Phi(x)_i^T\Phi(x)_j^T\Biggl\}$$
+$$\sum_{i=1}^{n}\alpha_iy_i= 0 ,\quad 0 \leq \alpha_i \leq C, \quad i = 1,2,...n$$
+
+カーネル法
+
 \clearpage
 
 ## 1-6 教師なし学習
+
+教師データを使わずに学習を行うことを「教師なし学習」と呼ぶ。教師なし学習は、
+主にクラスタリングの用途で使われ、データに隠れている構造を発見したり、
+教師あり学習の前処理として用いられる。
 
 クラスタリング(教師なし学習)によく使われる手法に「K-meansアルゴリズム」がある。
 K-meansアルゴリズムでは以下の目的関数を最小化する。
@@ -245,7 +282,7 @@ $$\vec{\mu}_k = \frac{\sum_nr_{nk}\vec{x}_n}{\sum_nr_{nk}}$$
 
   この式の分母は$k$番目のクラスタに割り当てられたデータの数に等しいので、$\vec{\mu}_k$は、
 $k$番目のクラスタに割り当てられた全てのデータ点$\vec{x_n}$の平均となっている。これがK-meansアルゴリズムと呼ばれている理由である。
-なお、K-meansアルゴリズムは次節の混合ガウス分布に対するEMアルゴリズムの非確率的
+なお、K-meansアルゴリズムは次章の混合ガウス分布に対するEMアルゴリズムの非確率的
 極限となっている。
 
 
