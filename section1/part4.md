@@ -27,6 +27,7 @@ $$ argmin_{\vec{w},b}\frac{1}{2}||\vec{w}||^2,\quad t_i(\vec{w}^T\vec{x}_i+b)\ge
 また、線形分離可能でない場合にスラッグ変数$\epsilon_i$を導入してこの最適化問題の制約を緩めることができる。
 
 $$argmin_{\vec{w},b}\Bigl\{\frac{1}{2}||\vec{w}||^2 + C\sum_{i=0}^{n}\epsilon_i\Bigl\},\quad t_i(\vec{w}^T\vec{x}_i+b)\geq 1-\epsilon_i,\quad \epsilon_i \geq 0 \quad i=1,2,...n \tag{1.5.5}$$
+$$\epsilon_i = max\biggl\{0, M - \frac{t_i(\vec{w}^T\vec{x}_i + b)}{||\vec{w}||}\biggl\}$$
 
 これはソフトマージンSVMと呼ばれている。またこれらの最適化問題は、不等式制約条件最適化問題の「主問題」と
 呼ばれており、主問題に対して「双対問題」という形式の問題を導くことができる。
@@ -35,11 +36,15 @@ $$argmin_{\vec{w},b}\Bigl\{\frac{1}{2}||\vec{w}||^2 + C\sum_{i=0}^{n}\epsilon_i\
 
 \clearpage
 
+(解答)
+
+\clearpage
+
 ### 1-5-2 SVMの双対問題と非線形分離
 
-ラグランジュ未定乗数法を用いると、上記の主問題を双対問題に変形することができる。
+　ラグランジュ未定乗数法を用いると、上記の主問題を双対問題に変形することができる。
 
-$$argmax_{\alpha}\Biggl\{L(\alpha) = \sum_{i=1}^{n}\alpha_i - \frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_i\alpha_jt_it_i\vec{x}_i^T\vec{x}_j\Biggl\} \tag{1.5.6}$$
+$$argmax_{\alpha}\Biggl\{L(\alpha) = \sum_{i=1}^{n}\alpha_i - \frac{1}{2}\sum_{i=1}^{n}\sum_{j=1}^{n}\alpha_i\alpha_jt_it_j\vec{x}_i^T\vec{x}_j\Biggl\} \tag{1.5.6}$$
 $$\sum_{i=1}^{n}\alpha_it_i= 0 ,\quad 0 \leq \alpha_i \leq C, \quad i = 1,2,...n$$
 
 学習データが線形識別関数で分離できない場合は、高次元非線形空間にデータ点を
@@ -59,9 +64,13 @@ $$L(\vec{w},b,\epsilon,\alpha,\beta) = \frac{1}{2}||\vec{w}||^2 + C\sum_{i=1}^{n
 
 \clearpage
 
+(解答)
+
+\clearpage
+
 ### 1-5-3 カーネル法
 
-双対問題に現れる値$\Phi(\vec{x})_i$は計算量が多く最適化問題を解くことが困難な形に
+　双対問題に現れる値$\Phi(\vec{x})_i$は計算量が多く最適化問題を解くことが困難な形に
 なってしまっているが、$\Phi(\vec{x})_i$の内積$\Phi(\vec{x})_i^T\Phi(\vec{x})_j$は
 $\Phi(\vec{x})_i$を計算しないで求めることができることが知られている。
 
@@ -85,7 +94,18 @@ $$K(\vec{x}_i, \vec{x}_j) = (\vec{x}_i^T\vec{x}_j + c)^d \tag{1.5.11}$$
 
 $$K(\vec{x}_i, \vec{x}_j) = tanh(b\vec{x}_i^T\vec{x}_j + c) \tag{1.5.12}$$
 
-(3) 
+(3)以下のような2次元入力空間から、3次元特徴空間への写像を考える。
 
+$$\Phi(\vec{x}) = (x_1^2, \sqrt{2}x_1x_2, x_2^2) \tag{1.5.13}$$
 
-上記の問題(3)のように、例えば多項式カーネルでは、$d$次以下の全種類の単項式を各成分に持つような特徴ベクトル$\Phi(x)$の内積を求めていることに対応します。(カーネルを決めたら自動的に写像のされ方が決定するので、問題に合わせてカーネルを選定する必要が出てきます。)
+このときこれらの内積$\Phi(\vec{x})^T\Phi(\vec{y})$が、$c=0,d=2$とした多項式カーネル、
+
+$$(\vec{x}^T\vec{y})^2 \tag{1.5.14}$$
+
+で表されることを示せ。
+
+　上記の問題(3)のように、例えば多項式カーネルでは、$d$次以下の全種類の単項式を各成分に持つような特徴ベクトル$\Phi(x)$の内積を求めていることに対応する。(カーネルを決めたら自動的に写像のされ方が決定するので、問題に合わせてカーネルを選定する必要がある。)
+
+\clearpage
+
+(解答)
