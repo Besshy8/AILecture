@@ -57,10 +57,9 @@ class Perceptron:
 
 ## ロジスティック回帰
 class LogisticRegression:
-    def __init__(self, eta=1e-3, epoch=10000, data=None):
+    def __init__(self, eta=1e-3, epoch=10000):
         self.eta = eta
         self.epoch = epoch
-        self.data = data
 
     def __preprocessing(self, X):  ## 切片追加処理
         app = X.tolist()
@@ -75,18 +74,14 @@ class LogisticRegression:
         return target.dot(np.log(p)) + (1 - target).dot(np.log(1 - p))
 
     def fit(self, X, target, display_loss='off'):  ## 最適化
-        try:
-            X = self.__preprocessing(X)
-            self.w = np.random.rand(len(self.data.feature_names) + 1)
-            for i in range(self.epoch):
-                p = self.__sigmoid(X)
-                loss = self.__binary_cross_entropy(p, target)
-                if display_loss == 'on' and i % 100 == 0:
-                    print("Loss_value: ", loss)
-                self.w = self.w - self.eta * (X.T.dot(p - target))
-        except AttributeError as e:
-            print('Catch AttributeError : ', e)
-            print('Please set data to lr = LogisticRegression(data="XXX")')
+        X = self.__preprocessing(X)
+        self.w = np.random.rand(X.shape[1])
+        for i in range(self.epoch):
+            p = self.__sigmoid(X)
+            loss = self.__binary_cross_entropy(p, target)
+            if display_loss == 'on' and i % 100 == 0:
+                print("Loss_value: ", loss)
+            self.w = self.w - self.eta * (X.T.dot(p - target))
 
     def predict(self, X):  ## 予測
         X = self.__preprocessing(X)
@@ -120,30 +115,30 @@ class LinearSVM():
     def _preprocessing(self):
         app = []
         for i in range(len(self.t)):
-        if self.t[i] == 1:
-            app.append(1)
-        else:
-            app.append(-1)
+            if self.t[i] == 1:
+                app.append(1)
+            else:
+                app.append(-1)
         self.T = np.array(app)
 
     def _H(self):
         app = [] ## H作成
         for j in range(len(self.T)):
-        col = []
-        for i in range(len(self.T)):
-            dot = (self.T[j] * self.T[i]) * self.X[j].dot(self.X[i])
-            col.append(dot)
-        app.append(col)
+            col = []
+            for i in range(len(self.T)):
+                dot = (self.T[j] * self.T[i]) * self.X[j].dot(self.X[i])
+                col.append(dot)
+            app.append(col)
         return np.array(app)
 
     def _t_t(self):
         app = [] ## t*t^T作成
         for j in range(len(self.T)):
-        col = []
-        for i in range(len(self.T)):
-            dot = self.T[j] * self.T[i]
-            col.append(dot)
-        app.append(col)
+            col = []
+            for i in range(len(self.T)):
+                dot = self.T[j] * self.T[i]
+                col.append(dot)
+            app.append(col)
         return np.array(app)
 
     def fit(self):
@@ -151,29 +146,29 @@ class LinearSVM():
         self.H = self._H()
         self.t_t = self._t_t()
         for _ in range(self.epoch): ## 勾配降下法
-        self.alpha = self.alpha + self.eta*(1 - self.H.dot(self.alpha) - self.beta*self.t_t.dot(self.alpha))
+            self.alpha = self.alpha + self.eta*(1 - self.H.dot(self.alpha) - self.beta*self.t_t.dot(self.alpha))
         ##print("alpha = ", self.alpha)
 
     def predict(self, X):
         w = np.array([0.0,0.0,0.0,0.0])
         for k in range(len(self.T)):
-        w += self.alpha[k]*self.T[k]*self.X[k]
+            w += self.alpha[k]*self.T[k]*self.X[k]
         b = 0
         for i in range(len(self.T)):
-        b += self.T[i] - w.dot(self.X[i])
+            b += self.T[i] - w.dot(self.X[i])
         b = b / len(self.T)
         y = X.dot(w) + b
         app = []
         for i in range(len(y)):
-        if y[i] >= 0:
-            app.append(1)
-        else:
-            app.append(0)
+            if y[i] >= 0:
+                app.append(1)
+            else:
+                app.append(0)
         return np.array(app)
 
     def accuracy(self, y_pred, target): ## 精度評価
         count = 0
         for i in range(len(target)):
-        if y_pred[i] == target[i]:
-            count += 1
+            if y_pred[i] == target[i]:
+                count += 1
         print('精度: ', count / len(target))
