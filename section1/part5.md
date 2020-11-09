@@ -22,6 +22,12 @@ $k$番目のクラスタに割り当てられた全てのデータ点$\vec{x_n}$
 (なお、K-meansアルゴリズムは次章の混合ガウス分布に対するEMアルゴリズムの非確率的
 極限となっている。)
 
+\clearpage
+
+(k-means法)
+
+\clearpage
+
 ### 1-6-2 次元削減
 
 　教師なし学習の応用の一つに「次元削減」があげられる。学習するパラメータ
@@ -71,3 +77,8 @@ $$\Sigma = \frac{1}{3}X^TX$$
 
 $$\frac{\partial L(\vec{e},\lambda)}{\partial \vec{e}},\quad\frac{\partial L(\vec{e},\lambda)}{\partial \lambda}$$
 
+(解答)
+
+\clearpage
+
+(解答)
